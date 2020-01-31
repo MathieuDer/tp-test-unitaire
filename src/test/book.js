@@ -16,6 +16,15 @@ chai.use(chaiAsPromised);
 
 // fait les Tests d'integration en premier
 describe('empty database', () => {
+
+    let emptyBooks = {
+        books: []
+    }
+
+    beforeEach(() => {
+        resetDatabase(path.normalize(`${__dirname}/../data/books.json`), emptyBooks);
+    })
+
     it('should get empty books', done => {
         chai
             .request(server)
@@ -54,13 +63,26 @@ describe('empty database', () => {
 
 describe('mocked database', () => {
 
-    it('should update book', done => {
+    let book = {
+        books: [{
+            'id': '0db0b43e-dddb-47ad-9b4a-e5fe9ec7c2a9',
+            'title': 'Coco raconte Channel 2',
+            'years': 1990,
+            'pages': 400
+        }]
+    }
 
-        const id = '0db0b43e-dddb-47ad-9b4a-e5fe9ec7c2a9';
+    const id = '0db0b43e-dddb-47ad-9b4a-e5fe9ec7c2a9';
+
+    beforeEach(() => {
+        resetDatabase(path.normalize(`${__dirname}/../data/books.json`), book);
+    })
+
+    it('should update book', done => {
 
         chai
             .request(server)
-            .put(`/book/:${id}`)
+            .put(`/book/${book.books[0].id}`)
             .send(
                 {
                     title: 'Coco raconte Channel 9'
@@ -77,11 +99,31 @@ describe('mocked database', () => {
     it('should delete book', done => {
         chai
             .request(server)
-            .delete('/book/:id')
+            .delete(`/book/${book.books[0].id}`)
             .end((err, res) => {
                 if (err) console.log(err);
                 expect(res).to.have.status(200);
                 expect(res.body.message).to.equals("book successfully deleted");
+                done();
+            });
+    });
+
+    it('should delete book', done => {
+        chai
+            .request(server)
+            .get(`/book/${book.books[0].id}`)
+            .end((err, res) => {
+                if (err) console.log(err);
+                console.log(res.body);
+                expect(res).to.have.status(200);
+                expect(res.body.message).to.equals("book fetched");
+                expect(res.body).to.be.a('object');
+                expect(res.body.book.title).to.be.a('string');
+                expect(res.body.book.title).to.equal('Coco raconte Channel 2');
+                expect(res.body.book.years).to.be.a('number');
+                expect(res.body.book.years).to.equal(1990);
+                expect(res.body.book.pages).to.be.a('number');
+                expect(res.body.book.pages).to.equal(400);
                 done();
             });
     });
