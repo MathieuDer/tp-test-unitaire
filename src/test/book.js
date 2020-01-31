@@ -39,7 +39,7 @@ describe('empty database', () => {
             });
     });
 
-    it('should post book', done => {
+    it('should post a book', done => {
         chai
             .request(server)
             .post('/book')
@@ -72,13 +72,11 @@ describe('mocked database', () => {
         }]
     }
 
-    const id = '0db0b43e-dddb-47ad-9b4a-e5fe9ec7c2a9';
-
     beforeEach(() => {
         resetDatabase(path.normalize(`${__dirname}/../data/books.json`), book);
     })
 
-    it('should update book', done => {
+    it('should update a book', done => {
 
         chai
             .request(server)
@@ -96,7 +94,7 @@ describe('mocked database', () => {
             });
     });
 
-    it('should delete book', done => {
+    it('should delete a book', done => {
         chai
             .request(server)
             .delete(`/book/${book.books[0].id}`)
@@ -108,7 +106,7 @@ describe('mocked database', () => {
             });
     });
 
-    it('should delete book', done => {
+    it('should get a book', done => {
         chai
             .request(server)
             .get(`/book/${book.books[0].id}`)
