@@ -5,6 +5,7 @@
   "main": "src/server.js",
   "author": "hikkary",
   "license": "ISC",
+  "presets":["@babel/preset-env"],
   "dependencies": {
     "body-parser": "^1.15.1",
     "chai-as-promised": "^7.1.1",
@@ -28,7 +29,8 @@
     "nodemon": "^1.18.10"
   },
   "scripts": {
-    "start": "NODE_ENV=dev && nodemon --exec babel-node src/server.js",
+    "start": "NODE_ENV=dev node ./src/server.js ",
+    "dev": "NODE_ENV=dev && nodemon --exec babel-node src/server.js ",
     "test": "mocha ./src/test --timeout 10000  --compilers js:@babel/register"
   }
 }
