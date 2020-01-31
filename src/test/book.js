@@ -112,7 +112,6 @@ describe('mocked database', () => {
             .get(`/book/${book.books[0].id}`)
             .end((err, res) => {
                 if (err) console.log(err);
-                console.log(res.body);
                 expect(res).to.have.status(200);
                 expect(res.body.message).to.equals("book fetched");
                 expect(res.body).to.be.a('object');
