@@ -29,7 +29,10 @@
     "nodemon": "^1.18.10"
   },
   "scripts": {
-    "start": "NODE_ENV=dev node ./src/server.js ",
+    "clean": "rm -rf build && mkdir build",
+    "build-babel": "babel -d ./build ./src -s",
+    "build": "npm run clean && npm run build-babel",
+    "start": "npm run build && node ./build/index.js",
     "dev": "NODE_ENV=dev && nodemon --exec babel-node src/server.js ",
     "test": "mocha ./src/test --timeout 10000  --compilers js:@babel/register"
   }
