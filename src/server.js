@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import book from './routes/books';
 // import config from 'config';
 
-let port = 8080;
+let port = 8090;
 let app = express();
 
 //don't show the log when it is test
