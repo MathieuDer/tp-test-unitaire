@@ -1,17 +1,27 @@
 image: node:latest
 
 stages:
-  - test
+  - deploy
+
+before_script:
+  - git config user.email "edwin.dzemovski@ynov.com"
+  - git config user.username "EdwinDz"
+
 
 cache:
   paths:
     - node_modules/
 
-install_dependencies:
-  stage: test
+deploy-to-prod:
+  stage: deploy
+  image: ruby:latest
   script:
-    - npm install
-    - npm test
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=unitynov --api-key=$HEROKU_KEY
+  only:
+    - master
 
   artifacts:
     paths:
