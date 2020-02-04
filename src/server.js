@@ -10,8 +10,8 @@ let app = express();
 
 //don't show the log when it is test
 // if (config.util.getEnv('NODE_ENV') !== 'test') {
-  //use morgan to log at command line
-  // app.use(morgan('combined')); //'combined' outputs the Apache style LOGs
+//use morgan to log at command line
+// app.use(morgan('combined')); //'combined' outputs the Apache style LOGs
 // }
 
 //parse application/json and look for raw text
@@ -33,7 +33,7 @@ app
   .delete(book.deleteBook)
   .put(book.updateBook);
 
-app.listen(port);
-console.log('Listening on port ' + port);
+app.listen(process.env.PORT || port);
+//console.log('Listening on port ' + port);
 
 module.exports = app; // for testing
